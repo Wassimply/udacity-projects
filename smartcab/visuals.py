@@ -72,19 +72,28 @@ def plot_trials(csv):
 	
 	# Create additional features
 	data['average_reward'] = pd.rolling_mean(data['net_reward'] / (data['initial_deadline'] - data['final_deadline']), 10)
+	
 	data['reliability_rate'] = pd.rolling_mean(data['success']*100, 10)  # compute avg. net reward with window=10
+	
 	data['good_actions'] = data['actions'].apply(lambda x: ast.literal_eval(x)[0])
+	
 	data['good'] = pd.rolling_mean(data['good_actions'] * 1.0 / \
 		(data['initial_deadline'] - data['final_deadline']), 10)
+	
 	data['minor'] = pd.rolling_mean(data['actions'].apply(lambda x: ast.literal_eval(x)[1]) * 1.0 / \
 		(data['initial_deadline'] - data['final_deadline']), 10)
+
 	data['major'] = pd.rolling_mean(data['actions'].apply(lambda x: ast.literal_eval(x)[2]) * 1.0 / \
 		(data['initial_deadline'] - data['final_deadline']), 10)
+
 	data['minor_acc'] = pd.rolling_mean(data['actions'].apply(lambda x: ast.literal_eval(x)[3]) * 1.0 / \
 		(data['initial_deadline'] - data['final_deadline']), 10)
+
 	data['major_acc'] = pd.rolling_mean(data['actions'].apply(lambda x: ast.literal_eval(x)[4]) * 1.0 / \
 		(data['initial_deadline'] - data['final_deadline']), 10)
+
 	data['epsilon'] = data['parameters'].apply(lambda x: ast.literal_eval(x)['e']) 
+	
 	data['alpha'] = data['parameters'].apply(lambda x: ast.literal_eval(x)['a']) 
 
 
